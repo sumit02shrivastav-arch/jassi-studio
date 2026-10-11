@@ -1,0 +1,706 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSASSI Wedding Photography</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --black:#070707;
+  --gold:#d5b16d;
+  --red:#a5161d;
+  --cream:#f0e9df;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  background:var(--black);
+  color:white;
+  font-family:Inter,Arial,sans-serif;
+  overflow-x:hidden;
+}
+a { color:inherit; text-decoration:none; }
+img,video { display:block; width:100%; }
+.progress {
+  position:fixed; top:0; left:0; z-index:999;
+  width:0; height:3px;
+  background:linear-gradient(90deg,var(--red),var(--gold),white);
+  box-shadow:0 0 15px var(--gold);
+}
+nav {
+  position:fixed; top:0; left:0; z-index:100;
+  width:100%; min-height:75px;
+  padding:15px 5%;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(0,0,0,.8);
+  backdrop-filter:blur(15px);
+}
+.logo {
+  font:600 27px 'Cormorant Garamond',serif;
+  color:var(--gold);
+}
+.logo small {
+  display:block; font:10px Inter,sans-serif;
+  letter-spacing:3px; color:white;
+}
+.links { display:flex; gap:25px; }
+.links a {
+  font-size:10px; text-transform:uppercase;
+  letter-spacing:2px; transition:.3s;
+}
+.links a:hover { color:var(--gold); }
+.menu {
+  display:none; color:white; background:none;
+  border:1px solid #777; padding:8px 12px; font-size:22px;
+}
+.hero {
+  min-height:100svh; position:relative;
+  display:grid; place-items:center; text-align:center;
+  overflow:hidden; padding:120px 6% 80px;
+}
+.hero video {
+  position:absolute; inset:0; height:100%;
+  object-fit:cover; opacity:.48;
+}
+.hero:after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,#0009,transparent 40%,#000);
+}
+.hero-content { position:relative; z-index:2; max-width:1100px; }
+.eyebrow {
+  color:var(--gold); font-size:10px;
+  letter-spacing:5px; text-transform:uppercase;
+  margin-bottom:25px;
+}
+h1,h2,h3 { font-family:'Cormorant Garamond',serif; }
+h1 {
+  font-size:clamp(55px,10vw,140px);
+  line-height:.88; font-weight:500; margin:0;
+}
+h1 span,h2 span { color:var(--gold); font-style:italic; }
+.hero p {
+  max-width:620px; margin:30px auto;
+  line-height:2; color:#ddd; font-size:14px;
+}
+.buttons { display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
+.btn {
+  display:inline-block; padding:15px 25px;
+  border:1px solid var(--gold); color:white;
+  text-transform:uppercase; letter-spacing:2px;
+  font-size:10px; transition:.4s;
+}
+.btn:hover {
+  background:var(--gold); color:black;
+  transform:translateY(-5px);
+  box-shadow:0 0 30px #d5b16d66;
+}
+section { padding:110px 6%; }
+.wrap { max-width:1400px; margin:auto; }
+.light { background:var(--cream); color:#171313; }
+.section-head {
+  display:flex; justify-content:space-between;
+  align-items:end; gap:35px; margin-bottom:45px;
+}
+h2 {
+  font-size:clamp(45px,7vw,95px);
+  font-weight:500; line-height:.9; margin:0;
+}
+.section-head p {
+  max-width:400px; font-size:13px;
+  line-height:1.9; color:#aaa;
+}
+.light .section-head p,.light p { color:#5f5851; }
+.intro-grid {
+  display:grid; grid-template-columns:1fr 1.3fr;
+  gap:60px; align-items:center;
+}
+.big-number {
+  font:150px 'Cormorant Garamond',serif;
+  color:var(--red);
+}
+p { line-height:2; }
+.marquee {
+  margin-top:70px; padding:20px 0;
+  overflow:hidden; white-space:nowrap;
+  border-block:1px solid #ffffff33;
+}
+.marquee-track {
+  display:inline-flex; gap:35px;
+  animation:marquee 22s linear infinite;
+}
+.marquee span {
+  font:35px 'Cormorant Garamond',serif;
+  color:var(--gold);
+}
+@keyframes marquee {
+  to { transform:translateX(-50%); }
+}
+.films { background:#090909; }
+.featured {
+  position:relative; overflow:hidden;
+  border:1px solid #d5b16d55;
+  box-shadow:0 20px 70px #000;
+}
+.featured video {
+  aspect-ratio:16/8; object-fit:cover; background:#111;
+}
+.video-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:18px; margin-top:20px;
+}
+.video-card {
+  position:relative; overflow:hidden; background:#151515;
+  border:1px solid #ffffff22;
+}
+.video-card video {
+  aspect-ratio:16/10; object-fit:cover;
+  transition:transform 1s;
+}
+.video-card:hover video { transform:scale(1.06); }
+.video-card h3 {
+  padding:0 15px; color:var(--gold); font-size:24px;
+}
+.gallery-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+.photo {
+  position:relative; overflow:hidden;
+  background:#171717; cursor:pointer;
+  aspect-ratio:4/5;
+}
+.photo img {
+  height:100%; object-fit:cover;
+  transition:transform 1s,filter 1s;
+}
+.photo:hover img { transform:scale(1.08); filter:brightness(1.15); }
+.photo:after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(110deg,transparent 40%,#ffffff44 50%,transparent 60%);
+  transform:translateX(-130%); transition:.8s;
+}
+.photo:hover:after { transform:translateX(130%); }
+.photo label {
+  position:absolute; bottom:12px; left:12px; z-index:2;
+  background:#0009; padding:7px 10px;
+  font-size:10px; letter-spacing:2px;
+}
+.interlude {
+  text-align:center; padding:130px 5%;
+  overflow:hidden;
+  background:radial-gradient(ellipse,#302416,#080808 65%);
+}
+.interlude h2 {
+  font-size:clamp(55px,13vw,160px);
+  color:transparent; -webkit-text-stroke:1px var(--gold);
+  animation:glow 3s infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow:0 0 0 transparent; }
+  to { text-shadow:0 0 35px #d5b16d88; }
+}
+.about-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:60px; align-items:start;
+}
+.service {
+  display:flex; justify-content:space-between;
+  padding:20px 0; border-bottom:1px solid #ffffff22;
+  font:25px 'Cormorant Garamond',serif;
+  transition:.3s;
+}
+.service:hover { color:var(--gold); padding-left:12px; }
+.story {
+  background:linear-gradient(130deg,#100d0a,#21170e,#080808);
+  position:relative; overflow:hidden;
+}
+.story:after {
+  content:""; position:absolute; top:-50%; left:-80%;
+  width:70%; height:200%;
+  background:linear-gradient(90deg,transparent,#ffffff16,transparent);
+  transform:rotate(20deg);
+  animation:shine 7s infinite;
+  pointer-events:none;
+}
+@keyframes shine {
+  0%,35% { left:-80%; }
+  80%,100% { left:140%; }
+}
+.story-grid {
+  display:grid; grid-template-columns:1.3fr .7fr;
+  align-items:center; gap:40px;
+}
+.story-number {
+  font:clamp(100px,20vw,240px) 'Cormorant Garamond',serif;
+  color:#d5b16d33; text-align:center;
+}
+.quote { text-align:center; background:#0b0b0b; }
+.quote blockquote {
+  max-width:1000px; margin:20px auto;
+  font:clamp(35px,6vw,75px)/1 'Cormorant Garamond',serif;
+}
+.quote blockquote span { color:var(--gold); font-style:italic; }
+.contact {
+  text-align:center; background:var(--cream); color:#171313;
+}
+.contact p { color:#625b55; }
+.contact-links {
+  display:flex; justify-content:center;
+  gap:15px; flex-wrap:wrap; margin-top:30px;
+}
+.contact-links a {
+  border:1px solid #171313; padding:15px 20px;
+  font-size:11px; overflow-wrap:anywhere; transition:.3s;
+}
+.contact-links a:hover { background:#171313; color:white; }
+footer {
+  padding:30px 6%; background:#030303;
+  display:flex; justify-content:space-between;
+  gap:20px; flex-wrap:wrap; color:#999;
+  font-size:10px; letter-spacing:2px;
+}
+.reveal {
+  opacity:0; transform:translateY(35px);
+  transition:opacity .8s,transform .8s;
+}
+.reveal.show { opacity:1; transform:translateY(0); }
+.spark {
+  position:fixed; z-index:90; pointer-events:none;
+  width:3px; height:3px; border-radius:50%;
+  background:white; box-shadow:0 0 12px 3px #d5b16d99;
+  animation:spark 7s linear infinite;
+}
+@keyframes spark {
+  0% { transform:translateY(100vh); opacity:0; }
+  20% { opacity:1; }
+  100% { transform:translateY(-10vh); opacity:0; }
+}
+.lightbox {
+  display:none; position:fixed; z-index:500;
+  inset:0; background:#000e; padding:25px;
+  align-items:center; justify-content:center;
+}
+.lightbox.open { display:flex; }
+.lightbox img { width:auto; max-width:95%; max-height:85vh; }
+.close {
+  position:absolute; top:20px; right:30px;
+  font-size:40px; cursor:pointer; color:white;
+}
+@media(max-width:850px) {
+  .menu { display:block; }
+  .links {
+    display:none; position:absolute; top:70px; left:0;
+    width:100%; padding:20px 7%;
+    background:#080808; flex-direction:column; gap:22px;
+  }
+  .links.open { display:flex; }
+  .intro-grid,.about-grid,.story-grid { grid-template-columns:1fr; gap:30px; }
+  .video-grid { grid-template-columns:1fr 1fr; }
+  .section-head { display:block; }
+  .section-head p { margin-top:20px; }
+  .big-number { font-size:100px; }
+}
+@media(max-width:550px) {
+  nav { min-height:65px; }
+  .logo { font-size:21px; }
+  .logo small { font-size:8px; letter-spacing:2px; }
+  .hero { min-height:90svh; padding-inline:5%; }
+  .hero h1 { font-size:15vw; }
+  section { padding:75px 5%; }
+  .video-grid,.gallery-grid { grid-template-columns:1fr 1fr; gap:9px; }
+  .video-card h3 { font-size:18px; padding:0 9px; }
+  .photo { aspect-ratio:3/4; }
+  .photo label { font-size:8px; left:5px; bottom:5px; }
+  .featured video { aspect-ratio:4/3; }
+  .contact-links { flex-direction:column; }
+  footer { flex-direction:column; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation-duration:.01ms!important;
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important;
+  }
+  .reveal { opacity:1; transform:none; }
+}
+</style>
+</head>
+
+<body>
+<div class="progress" id="progress"></div>
+
+<nav>
+  <a class="logo" href="#home">
+    JSASSI
+    <small>WEDDING PHOTOGRAPHY</small>
+  </a>
+  <button class="menu" id="menu" aria-label="Open menu">☰</button>
+  <div class="links" id="links">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#films">Wedding Films</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#story">Our Story</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<header class="hero" id="home">
+  <video id="heroVideo" autoplay muted loop playsinline></video>
+  <div class="hero-content">
+    <div class="eyebrow reveal">Photography • Films • Memories</div>
+    <h1 class="reveal">JSASSI<br><span>Wedding Photography</span></h1>
+    <p class="reveal">
+      We capture the magic of your wedding through cinematic films,
+      timeless portraits and the little moments that mean everything.
+      Your story deserves to be remembered beautifully.
+    </p>
+    <div class="buttons reveal">
+      <a class="btn" href="#gallery">Explore Gallery</a>
+      <a class="btn" href="#contact">Book Your Date</a>
+    </div>
+  </div>
+</header>
+
+<section class="light">
+  <div class="wrap intro-grid reveal">
+    <div><div class="big-number">01</div></div>
+    <div>
+      <div class="eyebrow">Welcome to our studio</div>
+      <h2>We frame <span>moments.</span></h2>
+      <p>
+        At JSASSI Wedding Photography, every celebration has its own
+        personality, emotion and rhythm. We turn genuine smiles,
+        happy tears, family traditions and unforgettable details into
+        photographs and films you will cherish for years.
+      </p>
+      <p>
+        Our style combines creative storytelling, beautiful composition,
+        natural expressions and cinematic lighting to preserve your
+        memories in a personal and timeless way.
+      </p>
+    </div>
+  </div>
+  <div class="marquee"><div class="marquee-track">
+    <span>WEDDINGS ✦</span><span>LOVE STORIES ✦</span>
+    <span>CINEMATIC FILMS ✦</span><span>PORTRAITS ✦</span>
+    <span>WEDDINGS ✦</span><span>LOVE STORIES ✦</span>
+    <span>CINEMATIC FILMS ✦</span><span>PORTRAITS ✦</span>
+  </div></div>
+</section>
+
+<section class="films" id="films">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div><div class="eyebrow">02 / Wedding films</div>
+        <h2>Moving <span>stories.</span></h2>
+      </div>
+      <p>
+        Relive the celebration through motion, music and emotion.
+        Watch our featured film and explore all three videos below.
+      </p>
+    </div>
+
+    <div class="featured reveal">
+      <video id="featuredVideo" controls muted playsinline preload="metadata"></video>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-card reveal">
+        <video id="vdo1" controls muted loop playsinline preload="metadata"></video>
+        <h3>VDO 01 — The Story</h3>
+      </div>
+      <div class="video-card reveal">
+        <video id="vdo2" controls muted loop playsinline preload="metadata"></video>
+        <h3>VDO 02 — Signature Film</h3>
+      </div>
+      <div class="video-card reveal">
+        <video id="vdo3" controls muted loop playsinline preload="metadata"></video>
+        <h3>VDO 03 — Highlights</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="light" id="gallery">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div><div class="eyebrow">03 / Selected work</div>
+        <h2>35 <span>frames.</span></h2>
+      </div>
+      <p>
+        Every frame holds a feeling. Explore our photo gallery and
+        click any image to view it in a larger format.
+      </p>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</section>
+
+<section class="interlude">
+  <div class="eyebrow">Every love story is unique</div>
+  <h2>YOUR <span>STORY</span></h2>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="reveal">
+      <div class="eyebrow">04 / Who we are</div>
+      <h2>Made for <span>your story.</span></h2>
+      <p>
+        We believe wedding photography is more than taking pictures.
+        It is about understanding people, noticing small details and
+        preserving the atmosphere of one of life's most meaningful days.
+      </p>
+      <p>
+        From the first preparations to the final celebration, our goal
+        is to help you feel comfortable while we document the moments
+        that make your story truly yours.
+      </p>
+    </div>
+    <div class="reveal">
+      <div class="service"><span>Wedding Photography</span><b>01</b></div>
+      <div class="service"><span>Wedding Cinematography</span><b>02</b></div>
+      <div class="service"><span>Pre-Wedding Shoots</span><b>03</b></div>
+      <div class="service"><span>Portraits & Fashion</span><b>04</b></div>
+      <div class="service"><span>Family & Events</span><b>05</b></div>
+      <div class="service"><span>Wedding Highlights</span><b>06</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="quote">
+  <div class="eyebrow reveal">05 / Our philosophy</div>
+  <blockquote class="reveal">
+    “A photograph is a <span>memory</span> that learns how to shine.”
+  </blockquote>
+  <p class="reveal">Real emotions. Honest moments. Beautiful memories.</p>
+</section>
+
+<section class="story" id="story">
+  <div class="wrap story-grid">
+    <div class="reveal">
+      <div class="eyebrow">06 / Our promise</div>
+      <h2>Not just pictures.<br><span>A legacy.</span></h2>
+      <p>
+        Years from now, your wedding photographs will bring you back
+        to the laughter, the music, the embraces and the people who
+        stood beside you. That is why we pay attention to the moments
+        between the big moments, too.
+      </p>
+      <p>
+        We work with care, creativity and a thoughtful approach,
+        so your images feel personal today and meaningful for generations.
+      </p>
+    </div>
+    <div class="story-number reveal">♥</div>
+  </div>
+</section>
+
+<section class="light">
+  <div class="wrap intro-grid reveal">
+    <div><div class="big-number">07</div></div>
+    <div>
+      <div class="eyebrow">The experience</div>
+      <h2>From hello to <span>forever.</span></h2>
+      <p><b>01 — Connect.</b> Tell us about your celebration, your plans and the moments that matter most.</p>
+      <p><b>02 — Plan.</b> We discuss the schedule, locations and photography style for a smooth experience.</p>
+      <p><b>03 — Celebrate.</b> Enjoy your day with family and friends while we capture the story as it unfolds.</p>
+      <p><b>04 — Relive.</b> Return to your photographs and films whenever you want to feel those memories again.</p>
+    </div>
+  </div>
+</section>
+
+<section class="interlude">
+  <div class="eyebrow">Light • Emotion • Motion</div>
+  <h2>LOVE <span>FOREVER</span></h2>
+</section>
+
+<section class="contact" id="contact">
+  <div class="eyebrow reveal">08 / Let's talk</div>
+  <h2 class="reveal">Let's create<br><span>something beautiful.</span></h2>
+  <p class="reveal">
+    Wedding bookings • Pre-wedding shoots • Photography • Films
+  </p>
+  <p class="reveal">
+    Have a date in mind? Get in touch to discuss your plans and ideas.
+    We would love to hear your story.
+  </p>
+  <div class="contact-links reveal">
+    <a href="tel:+919205660503">CALL: 9205660503</a>
+    <a href="mailto:sumit.02shrivastav@gmail.com">EMAIL: sumit.02shrivastav@gmail.com</a>
+    <a href="https://wa.me/919205660503" target="_blank" rel="noopener">WHATSAPP US</a>
+  </div>
+</section>
+
+<footer>
+  <span>© JSASSI WEDDING PHOTOGRAPHY</span>
+  <span>Photography • Films • Stories</span>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="close" id="close" aria-label="Close image">×</button>
+  <img id="lightImg" alt="Gallery photograph">
+</div>
+
+<script>
+// Supports media in either Website/kam/ or directly beside index.html.
+function setMedia(element, filename) {
+  const paths = ["kam/" + filename, filename];
+  let index = 0;
+
+  function tryNext() {
+    if (index >= paths.length) {
+      console.warn("Media file not found:", filename);
+      return;
+    }
+    element.src = paths[index++];
+  }
+
+  element.addEventListener("error", tryNext);
+  tryNext();
+}
+
+// Videos: VDO 2 is the hero and featured film.
+setMedia(document.getElementById("heroVideo"), "vdo2.mp4");
+setMedia(document.getElementById("featuredVideo"), "vdo2.mp4");
+setMedia(document.getElementById("vdo1"), "vdo1.mp4");
+setMedia(document.getElementById("vdo2"), "vdo2.mp4");
+setMedia(document.getElementById("vdo3"), "vdo3.mp4");
+
+// Build all 35 photos automatically.
+const gallery = document.getElementById("galleryGrid");
+
+for (let i = 1; i <= 35; i++) {
+  const card = document.createElement("div");
+  card.className = "photo reveal";
+
+  const img = document.createElement("img");
+  img.alt = "JSASSI Wedding Photography photo " + i;
+  img.loading = i < 7 ? "eager" : "lazy";
+
+  const paths = [
+    "kam/model" + i + ".JPG",
+    "kam/model" + i + ".jpg",
+    "model" + i + ".JPG",
+    "model" + i + ".jpg"
+  ];
+  let pathIndex = 0;
+
+  function tryImage() {
+    if (pathIndex < paths.length) {
+      img.src = paths[pathIndex++];
+    } else {
+      img.alt = "Image not found: model" + i + ".JPG";
+      card.style.display = "none";
+    }
+  }
+
+  img.addEventListener("error", tryImage);
+
+  const label = document.createElement("label");
+  label.textContent = "FRAME " + String(i).padStart(2, "0");
+
+  card.append(img, label);
+  gallery.appendChild(card);
+
+  card.addEventListener("click", () => {
+    if (img.complete && img.naturalWidth > 0) {
+      document.getElementById("lightImg").src = img.src;
+      document.getElementById("lightbox").classList.add("open");
+    }
+  });
+
+  tryImage();
+}
+
+// Fullscreen photo viewer.
+const lightbox = document.getElementById("lightbox");
+
+document.getElementById("close").addEventListener("click", () => {
+  lightbox.classList.remove("open");
+});
+
+lightbox.addEventListener("click", event => {
+  if (event.target === lightbox) {
+    lightbox.classList.remove("open");
+  }
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") lightbox.classList.remove("open");
+});
+
+// Reveal sections as the visitor scrolls.
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("show");
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+function observeReveals() {
+  document.querySelectorAll(".reveal:not(.show)").forEach(el => {
+    observer.observe(el);
+  });
+}
+observeReveals();
+
+// Add reveal animations to dynamically created gallery cards.
+const galleryObserver = new MutationObserver(observeReveals);
+galleryObserver.observe(gallery, { childList: true });
+
+// Scroll progress bar.
+window.addEventListener("scroll", () => {
+  const maxScroll =
+    document.documentElement.scrollHeight - window.innerHeight;
+  const percent = maxScroll > 0 ? window.scrollY / maxScroll * 100 : 0;
+  document.getElementById("progress").style.width = percent + "%";
+});
+
+// Mobile navigation.
+const menu = document.getElementById("menu");
+const links = document.getElementById("links");
+
+menu.addEventListener("click", () => {
+  const isOpen = links.classList.toggle("open");
+  menu.textContent = isOpen ? "×" : "☰";
+  menu.setAttribute("aria-expanded", String(isOpen));
+});
+
+links.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    links.classList.remove("open");
+    menu.textContent = "☰";
+    menu.setAttribute("aria-expanded", "false");
+  });
+});
+
+// Floating golden sparkles.
+for (let i = 0; i < 32; i++) {
+  const spark = document.createElement("i");
+  spark.className = "spark";
+  spark.style.left = Math.random() * 100 + "vw";
+  spark.style.animationDelay = -Math.random() * 8 + "s";
+  spark.style.animationDuration = 4 + Math.random() * 8 + "s";
+  document.body.appendChild(spark);
+}
+
+// Try muted autoplay after a visitor interaction.
+// Browsers may still require users to press Play.
+document.addEventListener("click", () => {
+  document.querySelectorAll("video[muted]").forEach(video => {
+    video.play().catch(() => {});
+  });
+}, { once: true });
+</script>
+
+</body>
+</html>
